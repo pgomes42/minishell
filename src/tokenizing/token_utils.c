@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:51:57 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/01 21:14:50 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/02 11:59:41 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,10 @@ int ft_isseparator(char c)
         || c == '>' || c == '|' || c == '&'       
     );
 }
-int ft_skipspace(char *str, int *i)
+void ft_skipspace(char **str)
 {    
-    while(str && str[*i] != '\0' && ft_isspace(str[*i]))
-        (*i)++;
-    return (*i);
+    while(str &&  ft_isspace(**str))
+        (*str)++;
 }
 int	ft_isspace(char c)
 {

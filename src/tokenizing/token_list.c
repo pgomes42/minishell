@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 09:18:37 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/01 23:10:57 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/02 14:56:56 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,19 @@ void ft_addargs_token(t_token *token, char *new_args)
     i = 0;
     while (token->args && token->args[i])
     {
-        args[i] = token->args[i];
+        args[i] = ft_strdup(token->args[i]);
         i++;
     }
-    
-    args[i] = new_args;
+    args[i] = ft_strdup(new_args);
     args[i + 1] = NULL;
-    free(token->args);
+    if (token->args)
+    {
+        int j = 0;
+        while (token->args[j])
+            free(token->args[j++]);
+        free(token->args);
+    }
     token->args = args;
-    
 }
 void clear_token(void *to)
 {
