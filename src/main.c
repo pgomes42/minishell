@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:36:38 by pgomes            #+#    #+#             */
-/*   Updated: 2025/08/30 16:13:50 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/03 20:58:07 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int main(int argc, char *argv[], char *env[])
         {
             ft_tokenizing(&data, data.line);
             ft_lstiter(data.list_token, &print_token);
+            printf("limpando...\n");
             ft_lstclear(&data.list_token, &clear_token);
+            free(data.line);
+            data.token = NULL;
+            exit(0);
             
         }
         

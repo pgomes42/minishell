@@ -22,12 +22,11 @@ static t_token *ft_newtoken(char *value, t_type type)
     new_token->value = NULL;
     new_token->args = NULL;
     if (value)
-        new_token->value = ft_strdup(value);
-    
+        new_token->value = value;
     new_token->type = type;
     return (new_token);
-    
 }
+
 void ft_addargs_token(t_token *token, char *new_args)
 {
     int i;
@@ -42,30 +41,30 @@ void ft_addargs_token(t_token *token, char *new_args)
     i = 0;
     while (token->args && token->args[i])
     {
-        args[i] = ft_strdup(token->args[i]);
+        args[i] = token->args[i];
         i++;
     }
-    args[i] = ft_strdup(new_args);
+    args[i] = new_args;
     args[i + 1] = NULL;
     if (token->args)
-    {
-        int j = 0;
-        while (token->args[j])
-            free(token->args[j++]);
         free(token->args);
-    }
     token->args = args;
 }
+
 void clear_token(void *to)
 {
     t_token *token;
-    
+    int i;
+
     token = (t_token *)to;
-    if(!token)
-        return;
-    if(token->value)
+    if (!token)
+        return ;
+    if (token->value)
         free(token->value);
-    if(token->args)
+     i = -1;
+    while (token->args && token->args[++i])
+      free(token->args[i]);
+    if (token->args)
         free(token->args);
     free(token);
 }
@@ -76,7 +75,6 @@ void print_token(void *to)
     int i;
     
     token = (t_token *)to;
-   
     if (!token)
         return ;
     printf("valor : %s \n", token->value);
@@ -86,7 +84,6 @@ void print_token(void *to)
         printf("[%d] %s ", i, token->args[i]);
     printf("\n");
     printf("token type : %d \n\n\n", token->type);
-    
 }
 
 int ft_add_token(t_data *data, char *value, t_type type)
@@ -98,6 +95,5 @@ int ft_add_token(t_data *data, char *value, t_type type)
        data->list_token = ft_lstnew(data->token);
     else
       ft_lstadd_back(&data->list_token, ft_lstnew(data->token));
-    
     return (1);
 }

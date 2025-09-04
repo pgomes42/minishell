@@ -12,63 +12,68 @@
 
 #include "minishell.h"
 
-static int ft_extarct_token(t_data *data, char **line)
+static void ft_extarct_token(t_data *data, char **line, int *i)
 {
-    int i;
-    char quote;
+    if (data->token && data->token->value)
+        ft_addargs_token(data->token, ft_substr(*line, 0, *i + 1));
+    else 
+        ft_add_token(data, ft_substr(*line, 0, *i + 1), T_COMAND);
+    *line += *i;
+    *i = -1;      
+}
+static int ft_extract_quote(t_data *data, char **line, int quote)
+{
+     int i;
 
-    printf("---- Entrei na funcao de extrair token ----\n");
-    i = -1;
-    quote = **line;
-    while(*line && *line[++i])
+    i = quote;
+    while ((*line)[++i])
     {
-        if(*line[i] == quote)
+        if ((*line)[i] == (*line)[quote])
             break;
     }
-    if (*line[i] && data->token && data->token->value)
-        ft_addargs_token(data->token, ft_substr(*line, 0, i + 1));
-    else if(*line[i])
-        ft_add_token(data, ft_substr(*line, 0, i + 1), T_COMAND);
+    if ((*line)[i] == (*line)[quote])
+       ft_extarct_token(data, line, &i); 
     else
         return (0);
-    *line += i;
-    return (1);        
-    
+    return (1);
 }
 
+static void ft_extract_redir(t_data *data, char **line)
+{   
+    t_type type ;
+
+    type = ft_gettype_redir_or_pipe(*line);
+    ft_add_token(data, NULL, type);
+   if (type == T_HERODUC || type== T_OUT_APP_REDIR)
+        *line += 2;
+    else
+        *line += 1;     
+}
 
 void ft_tokenizing(t_data *data, char *line)
 {
-    if (!line)
-        return;
+    int i;
 
-    while (*line)
+    i = -1;
+    while (line[++i])
     {
-        
         ft_skipspace(&line);
-        if (!*line)
+        if (ft_isquote(line[i]))
+        {
+            if(!ft_extract_quote(data, &line, i))
+                printf("erro\n");
+        }  
+        else if (ft_isseparator(line[i]) && ft_isspace(line[i]))
+            ft_extarct_token(data, &line, &i);
+        else if (ft_isseparator(line[i]) && is_redir_or_pipe(line[i]))
+        {
+           ft_extract_redir(data, &line);
+            i = -1;   
+        }
+        else if(line[i + 1] == '\0' && !ft_isspace(line[i]))
+        {
+            ft_extarct_token(data, &line, &i);
             break;
-
-        if (ft_isquote(*line))
-        {
-            if (ft_extarct_token(data, &line))
-                ft_lstiter(data->list_token, print_token);
-            continue;
         }
-        else if (ft_isseparator(*line) && ft_isspace(*line))
-        {
-            printf("aqui entao\n");
-            if (ft_extarct_token(data, &line))
-                printf("--- After space separator --- a linha que sobrou e: %s\n", line);
-            continue;
-        }
-        else if (ft_isseparator(*line) && is_redir_or_pipe(*line))
-        {
-            t_type type = ft_gettype_redir_or_pipe(line);
-            ft_add_token(data, ft_substr(line, 0, (type == T_PIPE) ? 1 : 2), type);
-            line += (type == T_PIPE) ? 1 : 2;
-            continue;
-        }
-        line++;
     }
 }
