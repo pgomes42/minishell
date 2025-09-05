@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:20:34 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/02 12:00:05 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/05 10:33:42 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ typedef struct s_data
 void clear_token_other(void *to);
 void clear_env(void *token);
 void print_env(void *en);
+void print_ast(t_ast *root);
+void ft_parse_token_ast(t_data *data);
 int ft_add_token(t_data *list_token, char *value,  t_type type);
 int ft_check_error(t_data *data, char c);
 void ft_extrat_env(t_data *data, char **env);

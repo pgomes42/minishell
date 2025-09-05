@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:36:38 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/04 21:25:14 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/05 10:36:31 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 static void ft_init(t_data *data, char **env)
 {
     ft_extrat_env(data, env);
-     ft_lstiter(data->list_env, &print_env);
+     //ft_lstiter(data->list_env, &print_env);
 }
 int main(int argc, char *argv[], char *env[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char *argv[], char *env[])
         return (perror("Execute minishel with no arguments!\n"), 1);
     (void)argv;
      ft_init(&data, env);
-    while (0)
+    while (1)
     {   
         data.line = readline("minishell$ ");
         if(data.line)
@@ -34,10 +34,19 @@ int main(int argc, char *argv[], char *env[])
                 add_history(data.line);
             ft_tokenizing(&data, data.line);
             if(data.error)
-                (ft_lstclear(&data.list_token, &clear_token), ft_memset(&data, 0, sizeof(data)));
+            {
+                ft_lstclear(&data.list_token, &clear_token);
+                ft_memset(&data, 0, sizeof(data));
+            }
+            else
+            {
+                ft_parse_token_ast(&data);
+                print_ast(data.ast);
+            }
             ft_lstiter(data.list_token, &print_token);
-            (ft_lstclear(&data.list_token, &clear_token), 
-            free(data.line), ft_memset(&data, 0, sizeof(data))); 
+            ft_lstclear(&data.list_token, &clear_token);
+            free(data.line);
+            ft_memset(&data, 0, sizeof(data));
         }
         else
             exit(data.status); 

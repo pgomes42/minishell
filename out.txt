@@ -1,0 +1,1 @@
+-rwxrwxr-x 1 pgomes pgomes 33992 set  5 08:46 minishell
