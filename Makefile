@@ -6,7 +6,7 @@
 #    By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 10:36:38 by pgomes            #+#    #+#              #
-#    Updated: 2025/08/30 12:25:02 by pgomes           ###   ########.fr        #
+#    Updated: 2025/09/04 21:23:19 by pgomes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 				src/tokenizing/token_list.c\
 				src/tokenizing/token_utils.c\
 				src/tokenizing/token_utils_two.c\
+				src/env/env_list.c\
 				src/main.c
 				
 				

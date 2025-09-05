@@ -54,18 +54,34 @@ typedef struct s_ast
     t_type type;
 }               t_ast;
 
+typedef struct s_env
+{
+   char *key;
+   char *value;
+}               t_env;
+
+
 typedef struct s_data
 {
+    int status;
     char *prompt;
     char *line;
+    char *error;
     int exit_status;
     t_list *list_token;
+    t_list *list_env;
+    t_ast   *ast;
     t_token *token;
+    t_env *env;
     
 }   t_data;
 
+void clear_token_other(void *to);
+void clear_env(void *token);
+void print_env(void *en);
 int ft_add_token(t_data *list_token, char *value,  t_type type);
-
+int ft_check_error(t_data *data, char c);
+void ft_extrat_env(t_data *data, char **env);
 void ft_tokenizing(t_data *token, char *line);
 void print_token(void *token);
 void clear_token(void *token);

@@ -18,7 +18,7 @@ static t_token *ft_newtoken(char *value, t_type type)
 
     new_token = (t_token *)malloc(sizeof(t_token));
     if (!new_token)
-        return (NULL);
+        return (perror("Error to creat token\n"), NULL);
     new_token->value = NULL;
     new_token->args = NULL;
     if (value)
@@ -90,7 +90,7 @@ int ft_add_token(t_data *data, char *value, t_type type)
 {  
     data->token = ft_newtoken(value, type);
     if(!data->token)
-        return (perror("Error to creat token\n"), 0);
+        return (0);
     if(!data->list_token)
        data->list_token = ft_lstnew(data->token);
     else

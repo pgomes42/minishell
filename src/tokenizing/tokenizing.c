@@ -61,8 +61,10 @@ void ft_tokenizing(t_data *data, char *line)
         if (ft_isquote(line[i]))
         {
             if(!ft_extract_quote(data, &line, i))
-                printf("erro\n");
-        }  
+                data->error = "\"";
+        }
+        else if(ft_check_error(data, line[i]))
+            return ; 
         else if (ft_isseparator(line[i]) && ft_isspace(line[i]))
             ft_extarct_token(data, &line, &i);
         else if (ft_isseparator(line[i]) && is_redir_or_pipe(line[i]))
