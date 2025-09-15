@@ -10,20 +10,72 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
+
+static int ft_parse_token_ast(t_data *data)
+{
+    t_ast *root;
+
+    data->tmp = data->list_token;
+    data->token = (t_token *) data->tmp->content;
+    if (data->token->type == T_PIPE)
+        return (ft_putstr_fd("minishell: syntax error: near unexpected `|'\n", 2), 0);   
+    data->error->error = false;
+    data->error->msg = NULL;
+    root = ft_creat_root(data);
+    if (data->error->error)
+    {
+        ft_putstr_fd("minishell: syntax error: ", 2);
+        ft_putstr_fd(data->error->msg,2);
+        ft_putstr_fd("\n",2);
+        if (root)
+           ft_clear_ast(&root);
+        return (0);
+    }
+    data->ast = root;
+    return(1);
+}
+ void ft_exit(t_data *data)
+{
+    if (data->error)
+        free(data->error);
+    ft_lstclear(&data->list_env, &clear_env);
+    ft_lstclear(&data->list_token, &clear_token);
+    free(data->line);
+    exit(0);
+}
+static void ft_reload(t_data *data)
+{
+    ft_clear_ast(&data->ast);
+    ft_lstclear(&data->list_token, &clear_token);
+    ft_clear_matrix(data->argv_env);
+    data->argv_env = NULL;
+    free(data->line);
+    data->line = NULL;
+    data->token = NULL; 
+    data->tmp = NULL;   
+}
+
 static void ft_init(t_data *data, char **env)
 {
     ft_extrat_env(data, env);
-     //ft_lstiter(data->list_env, &print_env);
+    data->error = malloc(sizeof(t_error));
+    data->error->error = false;
 }
+static void ft_print_error_msg(t_data *data)
+{
+        ft_putstr_fd("minishell: syntax error: ", 2);
+        ft_putstr_fd(data->error->msg, 2);
+        ft_putstr_fd("\n",2);
+        data->error->error = false;
+}
+
 int main(int argc, char *argv[], char *env[])
 {
     t_data data;
   
     ft_memset(&data, 0, sizeof(data));
-    if (argc > 1)
-        return (perror("Execute minishel with no arguments!\n"), 1);
-    (void)argv;
+    (void)argv, (void)argc;
      ft_init(&data, env);
     while (1)
     {   
@@ -33,23 +85,16 @@ int main(int argc, char *argv[], char *env[])
             if(data.line[0])
                 add_history(data.line);
             ft_tokenizing(&data, data.line);
-            if(data.error)
-            {
-                ft_lstclear(&data.list_token, &clear_token);
-                ft_memset(&data, 0, sizeof(data));
-            }
-            else
-            {
-                ft_parse_token_ast(&data);
-                print_ast(data.ast);
-            }
             ft_lstiter(data.list_token, &print_token);
-            ft_lstclear(&data.list_token, &clear_token);
-            free(data.line);
-            ft_memset(&data, 0, sizeof(data));
+            if(data.error->error)
+               (ft_print_error_msg(&data), ft_reload(&data));
+            else if(ft_parse_token_ast(&data))
+               (ft_load_ats_argv(&data, data.ast), ft_load_env_argv(&data),
+               ft_execute(&data, data.ast));
+            ft_reload(&data);
         }
-        else
-            exit(data.status); 
+        else if(!data.line)
+            ft_exit(&data); 
     }
     return (0);
 }

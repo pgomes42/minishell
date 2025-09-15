@@ -21,6 +21,7 @@ static t_token *ft_newtoken(char *value, t_type type)
         return (perror("Error to creat token\n"), NULL);
     new_token->value = NULL;
     new_token->args = NULL;
+    new_token->nb_args = 0;
     if (value)
         new_token->value = value;
     new_token->type = type;
@@ -32,9 +33,7 @@ void ft_addargs_token(t_token *token, char *new_args)
     int i;
     char **args;
 
-    i = 0;
-    while (token->args && token->args[i])
-        i++;
+    i = token->nb_args;
     args = (char **)malloc(sizeof(char *) * (i + 2));
     if (!args)
         perror("Erro aqui\n");
@@ -48,6 +47,7 @@ void ft_addargs_token(t_token *token, char *new_args)
     args[i + 1] = NULL;
     if (token->args)
         free(token->args);
+    token->nb_args++;
     token->args = args;
 }
 
@@ -61,12 +61,15 @@ void clear_token(void *to)
         return ;
     if (token->value)
         free(token->value);
+    token->value = NULL;
      i = -1;
     while (token->args && token->args[++i])
       free(token->args[i]);
     if (token->args)
         free(token->args);
+    token->args = NULL;
     free(token);
+    token = NULL;
 }
 
 void print_token(void *to)
@@ -77,11 +80,13 @@ void print_token(void *to)
     token = (t_token *)to;
     if (!token)
         return ;
-    printf("valor : %s \n", token->value);
-    printf("Argumentos:\n");
+    printf("valor : %s$\n", token->value);
+    printf("Argumentos: ");
     i = -1;
     while (token->args && token->args[++i])
-        printf("[%d] %s ", i, token->args[i]);
+    {
+       printf("[%d] '%s$ ", i, token->args[i]);
+    }
     printf("\n");
     printf("token type : %d \n\n\n", token->type);
 }

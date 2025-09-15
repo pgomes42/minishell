@@ -44,8 +44,36 @@ static void print_ast_node(t_ast *node, int level)
     }
 }
 
+void ft_clear_ast(t_ast **root)
+{
+    if (!(*root))
+        return ;
+    ft_clear_ast(&(*root)->left);
+    ft_clear_ast(&(*root)->right);
+    ft_clear_matrix((*root)->argv);
+    free(*root);
+    *root = NULL;
+}
 void print_ast(t_ast *root)
 {
     printf("AST:\n");
     print_ast_node(root, 0);
+}
+
+void ft_advance_token(t_data *data)
+{
+    if(!data->tmp->next)
+        return ;
+    data->tmp = data->tmp->next;
+    data->token = (t_token *)data->tmp->content;
+}
+void ft_parse_error(t_data *data, int type)
+{
+    if(type == 0)
+        data->error->msg = "expected filename after redirection";  
+    else if (type == 1)
+        data->error->msg = "expected command after pipe";
+    else if (type == 2)
+        data->error->msg = "expected \"";
+    data->error->error = true;
 }

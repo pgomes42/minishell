@@ -14,69 +14,100 @@
 
 static t_ast *ft_ast_newnode(t_token *token)
 {
-    t_ast *node = (t_ast *)malloc(sizeof(t_ast));
+    t_ast *node;
+
+    node = (t_ast *)malloc(sizeof(t_ast));
     if (!node)
         return (perror("Falied to creat ast_node"), NULL);
     node->type = token->type;
     node->value = token->value;
     node->args = token->args;
+    node->nb_args = token->nb_args;
+    node->argv = NULL;
     node->left = NULL;
     node->right = NULL;
     return node;
 }
 
-static void parse_cmd(t_ast **root, t_ast **last_cmd, t_token *token)
+static t_ast *ft_parse_cmd(t_data *data)
 {
-    t_ast *cmd_node = ft_ast_newnode(token);
-    if (!*root)
-        *root = cmd_node;
-    if (*last_cmd)
-        (*last_cmd)->right = cmd_node;
-    *last_cmd = cmd_node;
+ t_ast *cmd;
+
+
+ if (!data->token->type == T_COMAND)
+    return (NULL);
+cmd = ft_ast_newnode(data->token);
+ft_advance_token(data);
+return (cmd);    
 }
 
-static void parse_pipe(t_ast **root, t_ast **last_cmd, t_token *token)
+static t_ast *ft_parse_redir(t_data *data, t_ast *cmd)
 {
-    t_ast *pipe_node = ft_ast_newnode(token);
-    if (*root)
-    {
-        pipe_node->left = *root;
-        *root = pipe_node;
-    }
-    *last_cmd = NULL;
-}
+    t_ast *redir;
+    t_type type;
 
-static void parse_redir(t_ast **last_cmd, t_token *token)
-{
-    t_ast *redir_node = ft_ast_newnode(token);
-    if (*last_cmd)
+    if (data->token->type == T_IN_REDIR || data->token->type == T_OUT_APP_REDIR
+        || data->token->type ==T_OUT_SUB_REDIR ||data->token->type == T_HERODUC)
     {
-        if ((*last_cmd)->right)
-            (*last_cmd)->right->right = redir_node;
+        if (data->tmp->next)
+        {
+            type =  data->token->type;
+           ft_advance_token(data);
+            if (data->token->type == T_COMAND)
+            {
+                redir = ft_ast_newnode(data->token);
+                redir->type = type;
+            }
+            else
+               return(ft_parse_error(data, 0), cmd);
+            ft_advance_token(data);
+            redir->left = cmd;
+        }
         else
-            (*last_cmd)->right = redir_node;
+            return (ft_parse_error(data, 0), cmd);
+        cmd = redir;
     }
+    return (cmd);    
 }
 
-
-void ft_parse_token_ast(t_data *data)
+static t_ast *ft_parse_pipe(t_ast *left, t_ast *right)
 {
-    t_list *curr = data->list_token;
-    t_ast *root = NULL;
-    t_ast *last_cmd = NULL;
-    t_token *token;
+    t_ast *pipe;
 
-    while (curr)
-    {
-        token = (t_token *)curr->content;
-        if (token->type == T_COMAND)
-            parse_cmd(&root, &last_cmd, token);
-        else if (token->type == T_PIPE)
-            parse_pipe(&root, &last_cmd, token);
-        else if (token->type == T_IN_REDIR || token->type == T_OUT_APP_REDIR
-             || token->type == T_OUT_SUB_REDIR || token->type == T_HERODUC)
-            parse_redir(&last_cmd, token);
-        curr = curr->next;
-    }
-    data->ast = root;
+    pipe= (t_ast *)malloc(sizeof(t_ast));
+    if (!pipe)
+        return (perror("Falied to creat ast_node"), NULL);
+    pipe->type = T_PIPE;
+    pipe->value =NULL;
+    pipe->args = NULL;
+    pipe->argv = NULL;
+    pipe->left = left;
+    pipe->right = right;
+    return (pipe);
 }
+
+t_ast *ft_creat_root(t_data *data)
+{
+    t_ast *left;
+    t_ast *right; 
+    
+    left = ft_parse_cmd(data);
+    if(!left)
+        return(NULL);
+    left = ft_parse_redir(data, left);
+    while(data->token->type == T_PIPE && !data->error->error)
+    {
+        ft_advance_token(data);
+        right = ft_parse_cmd(data);
+        if (!right)
+            return (ft_parse_error(data, 1), left);
+        right = ft_parse_redir(data, right);
+        left = ft_parse_pipe(left, right);
+        if (!left)
+			return (NULL);
+    }
+   return (left);
+}
+
+
+

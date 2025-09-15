@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 14:41:06 by pgomes            #+#    #+#             */
-/*   Updated: 2025/08/30 11:07:53 by pgomes           ###   ########.fr       */
+/*   Created: 2025/09/13 13:21:05 by pgomes            #+#    #+#             */
+/*   Updated: 2025/09/13 13:34:48 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libft.h"
+#include "minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void ft_exit_f(t_data *data)
 {
-	char	*new;
-	size_t	finish;
-
-	if (!s)
-		return (NULL);
-	finish = 0;
-	if (len > start)
-		finish = len - start;
-	else
-		return (NULL);
-	new = (char *)malloc(sizeof(char) * (finish + 1));
-	if (!new)
-		return (0);
-	ft_strlcpy(new, s + start, finish + 1);
-	new[finish] = '\0';
-	return (new);
+    (void)data;
+    exit(0);
 }

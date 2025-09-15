@@ -31,6 +31,18 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 			src/tokenizing/token_utils_two.c\
 			src/env/env_list.c\
 			src/ast/ast.c\
+			src/builtins/cd.c\
+			src/builtins/echo.c\
+			src/builtins/unset.c\
+			src/builtins/export.c\
+			src/builtins/exit.c\
+			src/builtins/pwd.c\
+			src/execute/exec_builtins.c\
+			src/execute/execute.c\
+			src/utils/load_argv.c\
+			src/utils/clear.c\
+			src/expander/expander.c\
+			src/expander/expander_quotes.c\
 			src/ast/ast_utils.c\
 			src/main.c
 				
