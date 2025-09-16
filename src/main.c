@@ -42,7 +42,7 @@ static int ft_parse_token_ast(t_data *data)
     ft_lstclear(&data->list_env, &clear_env);
     ft_lstclear(&data->list_token, &clear_token);
     free(data->line);
-    exit(0);
+    exit(data->exit_status);
 }
 static void ft_reload(t_data *data)
 {
@@ -85,7 +85,6 @@ int main(int argc, char *argv[], char *env[])
             if(data.line[0])
                 add_history(data.line);
             ft_tokenizing(&data, data.line);
-            ft_lstiter(data.list_token, &print_token);
             if(data.error->error)
                (ft_print_error_msg(&data), ft_reload(&data));
             else if(ft_parse_token_ast(&data))

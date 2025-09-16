@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 15:10:33 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/14 18:40:01 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/15 21:20:28 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ static char *ft_expand_env(t_data *data, char *argv[], int *start, int *last)
     line = argv[0];
     expanded = argv[1];
     i = *start + 1;
+    if (line[i] == '?')
+    {
+        if (expanded)
+            expanded = ft_strjoin_f(expanded, ft_itoa(data->exit_status));       
+        else
+            expanded = ft_itoa(data->exit_status);
+        *start = i;
+        *last = i + 1;
+        return (expanded);
+    }
     while (line[i] && ft_isalnum(line[i]))
         i++;
     key = ft_substr(line, *start + 1, i);

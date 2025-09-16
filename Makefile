@@ -51,7 +51,7 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(SRCS:src/%.c=%.o))
 
 $(OBJ_DIR)/%.o: src/%.c $(HEADER)
-	@mkdir -p $(dir $@)
+	@mkdir -p $(libraries $@)
 	@$(CC) $(CFLAGS) -c $< -o $@ -Iinclude
 
 all: $(NAME)
