@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:49:29 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/02 14:59:06 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/16 15:04:07 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void ft_tokenizing(t_data *data, char *line)
     int i;
 
     i = -1;
-    while (line[++i])
+    while (!ft_is_empty(line) && line[++i])
     {
         ft_skipspace(&line);
         if (ft_isquote(line[i]) && !ft_extract_quote(data, line, &i, i))
@@ -81,7 +81,8 @@ void ft_tokenizing(t_data *data, char *line)
             ft_extarct_token(data, &line, &i);
         else if (ft_isseparator(line[i]) && is_redir_or_pipe(line[i]))
            ft_extract_redir(data, &line, &i);
-        else if(line[i + 1] == '\0' && !ft_isspace(line[i]))
+        else if(line[i + 1] == '\0' \
+            && !ft_is_empty(line))
         {
             i++;
             ft_extarct_token(data, &line, &i);

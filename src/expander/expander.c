@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 15:10:33 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/15 21:20:28 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/16 15:15:51 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static char *expanded_double_quote(t_data *data, char *argv[], int *end, int *la
     if (!expanded)
         expanded = ft_substr(line + j, 0, i);
     *end = i;
-    *last = i;
+    *last = i + 1;
     return (expanded);
 }
 

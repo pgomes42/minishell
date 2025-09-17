@@ -6,7 +6,7 @@
 #    By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 10:36:38 by pgomes            #+#    #+#              #
-#    Updated: 2025/09/05 13:20:21 by pgomes           ###   ########.fr        #
+#    Updated: 2025/09/16 12:22:54 by pgomes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,10 +39,11 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 			src/builtins/pwd.c\
 			src/execute/exec_builtins.c\
 			src/execute/execute.c\
+			src/execute/execute_utils.c\
 			src/utils/load_argv.c\
 			src/utils/clear.c\
+			src/utils/signal.c\
 			src/expander/expander.c\
-			src/expander/expander_quotes.c\
 			src/ast/ast_utils.c\
 			src/main.c
 				
@@ -51,7 +52,7 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 OBJS		:= $(addprefix $(OBJ_DIR)/, $(SRCS:src/%.c=%.o))
 
 $(OBJ_DIR)/%.o: src/%.c $(HEADER)
-	@mkdir -p $(libraries $@)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@ -Iinclude
 
 all: $(NAME)

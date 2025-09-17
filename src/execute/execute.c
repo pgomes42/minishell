@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 22:13:04 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/15 22:17:08 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 09:56:57 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static char *ft_get_path (t_data *data, char *cmd)
     
     i = -1;
     value = NULL;
-     if (ft_strchr(cmd, '/') && access(cmd, F_OK))
-            return (cmd);
-    splited = ft_split(ft_getenv_value(data->list_env, "PATH"), ':');
+     if (ft_strchr(cmd, '/') && !access(cmd, F_OK | X_OK))
+        return (ft_strdup(cmd));
+    splited = ft_split(ft_getenv_value(data->list_env, ft_strdup("PATH")), ':');
     while(splited && splited[++i])
     {
         value = ft_strjoin(splited[i], "/");
         value = ft_strjoin_f(value, strdup(cmd));
-        if (!access(value, F_OK))
+        if (!access(value, F_OK | X_OK))
             return (ft_clear_matrix(splited), value);
         free(value);
     }
@@ -37,7 +37,6 @@ static char *ft_get_path (t_data *data, char *cmd)
     
 }
 
-
 static int ft_execute_cmd(t_data *data, char **argv)
 {
     int pid;
@@ -45,18 +44,20 @@ static int ft_execute_cmd(t_data *data, char **argv)
     char *path;
 
     path = ft_get_path(data, argv[0]);
+    if (!path)
+        return (ft_check_cmd(argv[0]));
     status = 0;
     pid = fork();
     if (!pid)
     {
-        if (execve(path, argv, data->argv_env) != 0)
-        {
-            perror (argv[0]);
-            exit(1);
-        }
+        execve(path, argv, data->argv_env);
+        perror (argv[0]);
+       if (errno == ENOENT)
+            _exit(127);
+        if (errno == EACCES)
+            _exit(126);
     }
     waitpid(pid, &status, 0);
-    if (path)
         free(path);
     if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
@@ -68,23 +69,20 @@ static int ft_execute_redir(t_data *data, t_ast *ast)
     int orig_fd;
     int new_fd;
 
-    orig_fd = dup(STDIN_FILENO);
-    if (ast->type == T_IN_REDIR)
-        new_fd = open(ast->value, O_RDONLY);
-    else if (ast->type == T_OUT_SUB_REDIR)
-        new_fd = open(ast->value, O_WRONLY | O_CREAT | O_TRUNC, 0644 );
-    else if (ast->type == T_OUT_APP_REDIR)
-        new_fd = open(ast->value, O_WRONLY| O_CREAT | O_APPEND, 0644);
-    if (new_fd < 1)
-    {
-        perror("");
-    } 
-    (dup2(new_fd, STDOUT_FILENO), close(new_fd));
+    if (!ft_load_redir(ast, &new_fd, &orig_fd))
+        return (1);
+    if (ast->type == T_IN_REDIR && dup2(new_fd, STDIN_FILENO) == -1)
+        return (perror("dup1"), close(new_fd), close(orig_fd), 1);
+    else if ((ast->type == T_OUT_SUB_REDIR || ast->type == T_OUT_APP_REDIR)
+        && dup2(new_fd, STDOUT_FILENO) == -1)
+        return (perror("dup2"), close(new_fd), close(orig_fd), 1);
+    close(new_fd);
     status = ft_execute(data, ast->left);
-    if (ast->type == T_IN_REDIR)
-        dup2(orig_fd, STDIN_FILENO);
-    else
-        dup2(orig_fd, STDOUT_FILENO);
+    if (ast->type == T_IN_REDIR && dup2(orig_fd, STDIN_FILENO) == -1)
+        return (perror("dup3"), close(orig_fd), status);
+    else if( (ast->type == T_OUT_SUB_REDIR || ast->type == T_OUT_APP_REDIR)
+        && dup2(orig_fd, STDOUT_FILENO) == -1)
+        return (perror("dup4"), close(orig_fd), status);
     return (close(orig_fd), status);    
 }
 static int ft_execute_pipe(t_data *data, t_ast *ast)
@@ -134,7 +132,7 @@ int ft_execute(t_data *data, t_ast *ast)
         data->exit_status = ft_execute_redir(data, ast);
     else if(ast->type == T_HERODUC)
     {
-        printf("aqui\n");
+       data->exit_status = ft_exec_heroduc(data, ast);
     }
-return (1);
+return (data->exit_status);
 }

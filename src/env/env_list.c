@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 20:48:17 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/15 19:29:21 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 09:57:32 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ char *ft_getenv_value(t_list *list, char *key)
     {
         env = (t_env *)temp->content;
         if (!ft_strcmp(env->key, key))
-            return (env->value); 
+            return (free(key), env->value); 
         temp = temp->next;
     }
     free(key);
     return (value);
 }
 
-void ft_extrat_env(t_data *data, char **env)
+void ft_extract_env(t_data *data, char **env)
 {
     int i;
     int j;

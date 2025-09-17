@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 11:23:22 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/07 22:30:59 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/16 13:12:53 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,14 @@ void clear_token_other(void *to)
     if (!token)
         return ;
     free(token);
+}
+int ft_is_empty(char *line)
+{
+   while(line && *line)
+   {
+        if (!ft_isspace(*line))
+            return (0);
+        line++;
+   }
+   return (1);
 }

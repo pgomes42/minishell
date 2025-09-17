@@ -6,11 +6,13 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:36:38 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/05 10:36:31 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 09:58:03 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_status = 0;
 
 static int ft_parse_token_ast(t_data *data)
 {
@@ -58,7 +60,7 @@ static void ft_reload(t_data *data)
 
 static void ft_init(t_data *data, char **env)
 {
-    ft_extrat_env(data, env);
+    ft_extract_env(data, env);
     data->error = malloc(sizeof(t_error));
     data->error->error = false;
 }
@@ -76,6 +78,7 @@ int main(int argc, char *argv[], char *env[])
   
     ft_memset(&data, 0, sizeof(data));
     (void)argv, (void)argc;
+    ft_setup_signals();
      ft_init(&data, env);
     while (1)
     {   

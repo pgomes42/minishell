@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:05:46 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/14 19:43:44 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 07:52:40 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int ft_export(t_data *data, char **args)
         key = ft_substr(args[1], 0, i);
         value = ft_substr(args[1] + (i + 1), 0, ft_strlen(args[1]));
         if (!ft_setenv_value(data, key, value))
-            ft_add_env(data,  key, value);
+            ft_add_env(data, ft_strdup(key), ft_strdup(value));
         (free(value), free(key));
     }
     else

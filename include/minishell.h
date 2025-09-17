@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:20:34 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/05 10:33:42 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 09:57:50 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <termios.h>
+# include <errno.h>
 
+
+
+extern int g_status;
 
 typedef enum e_type
  {
@@ -87,7 +91,13 @@ typedef struct s_data
     
 }   t_data;
 
+int ft_exec_heroduc(t_data *data, t_ast *ast);
+void ft_sigint_handler(int sig);
+int ft_is_empty(char *line);
+int ft_load_redir(t_ast *ast, int *new_fd, int *orig_fd);
+void ft_setup_signals(void);
 t_ast *ft_creat_root(t_data *data);
+int ft_check_cmd(char *file);
 int ft_execute(t_data *data, t_ast *ast);
 void ft_load_ats_argv(t_data *data, t_ast *ast);
 void ft_load_env_argv(t_data *data);
@@ -114,7 +124,7 @@ void print_env(void *en);
 void print_ast(t_ast *root);
 int ft_add_token(t_data *data, char *value,  t_type type);
 int ft_check_error(t_data *data, char c);
-void ft_extrat_env(t_data *data, char **env);
+void ft_extract_env(t_data *data, char **env);
 void ft_tokenizing(t_data *token, char *line);
 void print_token(void *token);
 void clear_token(void *token);
