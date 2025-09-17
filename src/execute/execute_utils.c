@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:05:35 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 10:06:36 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/17 10:14:03 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,16 @@ int ft_exec_heroduc(t_data *data, t_ast *ast)
                 free(line);
                 break ;
             }
-        ft_putstr_fd(line, pipe_fd[1]);
-        ft_putstr_fd("\n", pipe_fd[1]);
-        free(line);
+        (ft_putendl_fd(line, pipe_fd[1]), free(line));
         }
         (close(pipe_fd[1]), _exit(0));
     }
-    waitpid(pid, &status, 0);
-     close(pipe_fd[1]);
-    dup2(pipe_fd[0], STDIN_FILENO);
-        //return (perror("dup"), close(pipe_fd[0]), 1);
+    (waitpid(pid, &status, 0), close(pipe_fd[1]));
+    if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+        return (perror("dup"), close(pipe_fd[0]), 1);
     close(pipe_fd[0]);
     status = ft_execute(data, ast->left);
-    //if (WIFSIGNALED(status))
-      //  return (128 + WTERMSIG(status));
+    if (WIFSIGNALED(status))
+        return (128 + WTERMSIG(status));
     return (WEXITSTATUS(status));
 }   
