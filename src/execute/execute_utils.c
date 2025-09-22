@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:05:35 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 10:14:03 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/19 11:25:33 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int ft_load_redir(t_ast *ast, int *new_fd, int *orig_fd)
     return (1);
 }
 
+
 int ft_exec_heroduc(t_data *data, t_ast *ast)
 {
     int pid;
@@ -65,7 +66,11 @@ int ft_exec_heroduc(t_data *data, t_ast *ast)
                 free(line);
                 break ;
             }
-        (ft_putendl_fd(line, pipe_fd[1]), free(line));
+            line = ft_expande_heroduc(data, line);
+            if (line)
+                (ft_putendl_fd(line, pipe_fd[1]), free(line));
+            else 
+                ft_putendl_fd("", pipe_fd[1]);
         }
         (close(pipe_fd[1]), _exit(0));
     }

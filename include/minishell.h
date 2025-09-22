@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:20:34 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 09:57:50 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/19 11:23:36 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,10 @@ int	ft_isspace(char c);
 int ft_isseparator(char c);
 int ft_isquote(char c);
 void ft_skipspace(char **str);
+char *ft_expande_heroduc(t_data *data, char *line);
 t_type ft_gettype_redir_or_pipe(char *line);
 void ft_addargs_token(t_token *token, char *new_args);
+char *ft_get_sub(char *line, char *expanded, int start, int end);
+char *ft_expander_in(t_data *data, char *expanded, char *line, int *start, int *end);
 
 #endif
