@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:20:34 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/19 11:23:36 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/23 10:51:13 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int ft_unset(t_data *data, char *args);
 int ft_echo(char *argv[]);
 int ft_pwd(void);
 int ft_export(t_data *data, char **args);
-void ft_exit(t_data *data);
+int ft_exit(t_data *data, char **argv);
 char *ft_expander(t_data *data, char *args);
 char *ft_getenv_value(t_list *list, char *key);
 void ft_clear_matrix(char **matrix);

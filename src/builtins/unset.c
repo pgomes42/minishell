@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 11:18:55 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/13 11:45:38 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/23 09:40:31 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int ft_unset(t_data *data, char *args)
         env = (t_env *)list_env->content;
         if (!ft_strcmp(args, env->key))
         {
+            
             clear_env((void *)env);
             if (prev)
                 prev->next = list_env->next;

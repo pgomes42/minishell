@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 15:10:33 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/19 11:31:14 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/23 10:42:35 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char *ft_expand_env(t_data *data, char *argv[], int *start, int *last)
     line = argv[0];
     i = *start + 1;
     expanded = argv[1];
-    while (line[i] && ft_isalnum(line[i]))
+    while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
         i++;
     key = ft_substr(line, *start + 1, i);
     *start = i - 1;
@@ -61,12 +61,12 @@ static char *expanded_quote(t_data *data, char *argv[], int *start, int *last)
    j = i + 1;
    while (argv[0][++i] != '"')
     {
-        if (argv[0][i] == '$' && (argv[0][i] == '?' || ft_isalnum(argv[0][i + 1])))
+        if (argv[0][i] == '$' && (argv[0][i + 1] == '?' || ft_isalnum(argv[0][i + 1])))
             argv[1] = ft_get_sub(argv[0], argv[1], j, i);
-        if (argv[0][i] == '$' && argv[0][i] == '?')
+        if (argv[0][i] == '$' && argv[0][i + 1] == '?')
             argv[1] = ft_expander_in(data, argv[0], argv[1], &i, &j);
         if (argv[0][i] == '$' && ft_isalnum(argv[0][i + 1]))
-            argv[1] = ft_expand_env(data, (char *[]){argv[0], argv[1]}, &i, last);
+            argv[1] = ft_expand_env(data, (char *[]){argv[0], argv[1]}, &i, &j);
     }
     argv[1] = ft_get_sub(argv[0], argv[1], j, i);
     if (!argv[1])
@@ -123,9 +123,7 @@ char *ft_expander(t_data *data, char *args)
         if (args[i + 1] == '\0')
             break ;       
     }
-    expanded = ft_get_sub(args, expanded, j, ++i);
     if (!expanded)
         expanded = ft_strdup(args);
     return (expanded); 
 }
-

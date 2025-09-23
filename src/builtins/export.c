@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:05:46 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 07:52:40 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/23 10:37:09 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,49 @@ void print_export(void *en)
     printf("declare -x %s=\"%s\" \n",env->key, env->value);   
 }
 
+static int ft_is_valid_key(char *key)
+{
+    int i;
+
+    i = -1;
+    if (!key || !ft_isalpha(key[0]))
+        return (0);
+    while (key[++i] && key[i] != '=')
+    {
+        if (!ft_isalnum(key[i]) && key[i] != '_')
+            return (0);
+    }
+    return (1);
+}
+
 int ft_export(t_data *data, char **args)
 {
     int i;
+    int j;
     char *key;
     char *value;
     
-    value = ft_strchr(args[1], '=');
     if(!args[1])
         ft_lstiter(data->list_env, &print_export);
-    else if (ft_isalpha(args[1][0]) && value)
+    j = 0;
+    while (args[++j])
     {
-        i = ft_strlen(args[1]) - ft_strlen(value + 1);
-        key = ft_substr(args[1], 0, i);
-        value = ft_substr(args[1] + (i + 1), 0, ft_strlen(args[1]));
-        if (!ft_setenv_value(data, key, value))
-            ft_add_env(data, ft_strdup(key), ft_strdup(value));
-        (free(value), free(key));
-    }
-    else
-    {
-        ft_putstr_fd("-minishell : export: `", 2);
-        ft_putstr_fd(args[1], 2);
-        ft_putstr_fd("': not a valid identifier\n", 2);
+        value = ft_strchr(args[j], '=');
+        if (ft_is_valid_key(args[j]) && value)
+        {
+            i = ft_strlen(args[j]) - ft_strlen(value);
+            key = ft_substr(args[j], 0, i);
+            value = ft_substr(args[j] + (i + 1), 0, ft_strlen(args[j]));
+            if (!ft_setenv_value(data, key, value))
+                ft_add_env(data, ft_strdup(key), ft_strdup(value));
+            (free(value), free(key));
+        }
+        else
+        {
+            ft_putstr_fd("-minishell : export: `", 2);
+            ft_putstr_fd(args[j], 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
+        }
     }
     return (1);
 }
