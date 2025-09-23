@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:36:38 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 09:58:03 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/23 11:38:03 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int ft_parse_token_ast(t_data *data)
     data->ast = root;
     return(1);
 }
- void ft_exit(t_data *data)
+ static void ft_exit1(t_data *data)
 {
     if (data->error)
         free(data->error);
@@ -96,7 +96,7 @@ int main(int argc, char *argv[], char *env[])
             ft_reload(&data);
         }
         else if(!data.line)
-            ft_exit(&data); 
+            ft_exit1(&data); 
     }
     return (0);
 }

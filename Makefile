@@ -6,7 +6,7 @@
 #    By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 10:36:38 by pgomes            #+#    #+#              #
-#    Updated: 2025/09/19 11:26:14 by pgomes           ###   ########.fr        #
+#    Updated: 2025/09/23 11:29:28 by pgomes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ LIBFT_PATH	:= "libraries/libft"
 
 CC			:= cc
 CFLAGS		:= -Wall -Werror -Wextra -g
-
 
 SRCS		:=	src/tokenizing/tokenizing.c\
 			src/tokenizing/token_list.c\
