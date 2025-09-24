@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 12:02:28 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/13 23:18:53 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/24 14:35:08 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int ft_echo(char *argv[])
         if(argv[i + 1])
             printf(" ");
     }
-    if (j == -1)
-        return (1);
-    return ( printf("\n"), 1);
+    if (j != -1)
+        printf("\n");
+    return (0);
 }

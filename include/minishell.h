@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:20:34 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/23 10:51:13 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/24 14:26:00 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # include <errno.h>
 
 
-
-extern int g_status;
 
 typedef enum e_type
  {
@@ -93,6 +91,9 @@ typedef struct s_data
 
 int ft_exec_heroduc(t_data *data, t_ast *ast);
 void ft_sigint_handler(int sig);
+void ft_heredoc_sigint_handler(int sig);
+void ft_setup_heredoc_signals(void);
+void ft_disable_ctrl_echo(void);
 int ft_is_empty(char *line);
 int ft_load_redir(t_ast *ast, int *new_fd, int *orig_fd);
 void ft_setup_signals(void);

@@ -6,12 +6,18 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:05:35 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/19 11:25:33 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/24 10:53:57 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int ft_get_exit_status(int status)
+{
+   if (WIFSIGNALED(status))
+        return (128 + WTERMSIG(status));
+    return (WEXITSTATUS(status));
+}
 
 int ft_check_cmd(char *file)
 {
@@ -45,27 +51,48 @@ int ft_load_redir(t_ast *ast, int *new_fd, int *orig_fd)
         return (perror("dup"), close(*new_fd), 0);
     return (1);
 }
-
+static int ft_exec_heroduc_two(t_data *data, t_ast *ast, int pipe_fd[2], int *pid)
+{
+    int status;
+    
+    (signal(SIGINT, SIG_IGN), waitpid(*pid, &status, 0));
+    (close(pipe_fd[1]), ft_setup_signals());
+    if (WIFSIGNALED(status))
+    {
+        if (WTERMSIG(status) == SIGINT)
+           return (close(pipe_fd[0]), 130);
+        else
+            return (close(pipe_fd[0]), 28 + WTERMSIG(status));
+    }
+    if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+        return (perror("dup"), close(pipe_fd[0]), 1);
+    close(pipe_fd[0]);
+    status = ft_execute(data, ast->left);
+    return (ft_get_exit_status(status));
+}
 
 int ft_exec_heroduc(t_data *data, t_ast *ast)
 {
     int pid;
-    int status;
     char *line;
     int pipe_fd[2];
 
     (pipe(pipe_fd), pid = fork());
     if (pid == 0)
     {
-        close(pipe_fd[0]);
+        (close(pipe_fd[0]),ft_setup_heredoc_signals());
         while (1)
         {
             line = readline("> ");
-            if (!line || !ft_strcmp(line, ast->value))
+            if (!line) 
             {
-                free(line);
-                break ;
+                ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 2);
+                ft_putendl_fd(ast->value, 2);
             }
+            if (!ft_strcmp(line, ast->value))
+                free(line);
+            if(!line || !ft_strcmp(line, ast->value))
+                break ;
             line = ft_expande_heroduc(data, line);
             if (line)
                 (ft_putendl_fd(line, pipe_fd[1]), free(line));
@@ -74,12 +101,5 @@ int ft_exec_heroduc(t_data *data, t_ast *ast)
         }
         (close(pipe_fd[1]), _exit(0));
     }
-    (waitpid(pid, &status, 0), close(pipe_fd[1]));
-    if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-        return (perror("dup"), close(pipe_fd[0]), 1);
-    close(pipe_fd[0]);
-    status = ft_execute(data, ast->left);
-    if (WIFSIGNALED(status))
-        return (128 + WTERMSIG(status));
-    return (WEXITSTATUS(status));
+    return (ft_exec_heroduc_two(data, ast, pipe_fd, &pid));
 }   

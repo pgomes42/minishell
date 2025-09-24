@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 15:10:33 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/23 10:42:35 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/24 14:29:35 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ char *ft_expander(t_data *data, char *args)
     expanded = NULL;
     i = -1;
     j = 0;
-    
     while (args && args[++i])
     {
         if (args[i] == '"' || args[i] == '\'' 

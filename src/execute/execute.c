@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 22:13:04 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/17 09:56:57 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/24 14:30:21 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static char *ft_get_path (t_data *data, char *cmd)
     }
     if (splited)
         ft_clear_matrix(splited);
-    return (NULL);
-    
+    return (NULL);  
 }
 
 static int ft_execute_cmd(t_data *data, char **argv)
