@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 15:10:33 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/24 14:29:35 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:13:26 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,18 @@ char *ft_expande_heroduc(t_data *data, char *line)
     expande = NULL;
     i = -1;
     j = 0;
+    
     while (line && line[++i])
     {
-        if (line[i] == '$' && (ft_isalnum(line[i + 1]) || line[i + 1] == '?'))
+        
+        if (line[i] == '$' && line[i + 1] && (ft_isalnum(line[i + 1]) || line[i + 1] == '?'))
+        {
             expande = ft_get_sub(line, expande, j, i);
-        if (line[i] == '$' && line[i] == '?')
-            expande = ft_expander_in(data, line, expande, &i, &j);
-        else if (line[i] == '$' && ft_isalnum(line[i + 1]))
-            expande = ft_expand_env(data, (char *[]){line, expande}, &j, &i);
+            if (line[i + 1] == '?')
+                expande = ft_expander_in(data, line, expande, &i, &j);
+            else if (ft_isalnum(line[i + 1]))
+                expande = ft_expand_env(data, (char *[]){line, expande}, &i, &j);          
+        }
     }
     expande = ft_get_sub(line, expande, j, i);
     free(line);
@@ -111,15 +115,15 @@ char *ft_expander(t_data *data, char *args)
     while (args && args[++i])
     {
         if (args[i] == '"' || args[i] == '\'' 
-            || (args[i] == '$' && (ft_isalnum(args[i + 1]) || args[i + 1] == '?')))
+            || (args[i] == '$' && args[i + 1] && (ft_isalnum(args[i + 1]) || args[i + 1] == '?')))
             expanded = ft_get_sub(args, expanded, j, i);
-        if(args[i] == '$' && args[i + 1] == '?')  
+        if(args[i] == '$' && args[i + 1] && args[i + 1] == '?')  
             expanded = ft_expander_in(data, args, expanded, &i, &j);
         else if (args[i] == '"' || args[i] == '\'')
             expanded = expanded_quote(data, (char *[]){args, expanded}, &i, &j);
-        else if (args[i] == '$' && ft_isalnum(args[i + 1]))
+        else if (args[i] == '$' && args[i + 1] && ft_isalnum(args[i + 1]))
             expanded = ft_expand_env(data, (char *[]){args, expanded}, &i, &j);
-        if (args[i + 1] == '\0')
+        if (!args[i + 1])
             break ;       
     }
     if (!expanded)

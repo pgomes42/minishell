@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 09:54:19 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/19 11:13:33 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/30 14:59:23 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *ft_expander_in(t_data *data, char *line, char *expanded, int *start, int *
     int i;
     
     i = *start + 1;
-    if (line[i] == '?')
+    if (line[i] && line[i] == '?')
     {
         if (expanded)
             expanded = ft_strjoin_f(expanded, ft_itoa(data->exit_status));       

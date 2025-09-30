@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 08:36:38 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/24 14:34:45 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/30 15:45:18 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int ft_parse_token_ast(t_data *data)
 {
     t_ast *root;
-
+    if (!data || !data->list_token)
+        return (0);
     data->tmp = data->list_token;
     data->token = (t_token *) data->tmp->content;
     if (data->token->type == T_PIPE)

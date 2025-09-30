@@ -6,7 +6,7 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 12:05:35 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/24 10:53:57 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/09/30 14:54:05 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ int ft_exec_heroduc(t_data *data, t_ast *ast)
                 ft_putendl_fd(ast->value, 2);
             }
             if (!ft_strcmp(line, ast->value))
+            {
                 free(line);
+                break;
+            }
             if(!line || !ft_strcmp(line, ast->value))
                 break ;
             line = ft_expande_heroduc(data, line);
