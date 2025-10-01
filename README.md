@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Linux-lightgrey)
 ![Memory Safe](https://img.shields.io/badge/memory-safe-orange)
+![Angola](https://img.shields.io/badge/🇦🇴-Angola-red)
 
 > 🐚 Um shell simples e robusto implementado em C como parte do currículo da 42 School.
 
