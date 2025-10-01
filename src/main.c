@@ -16,6 +16,7 @@ static int	ft_parse_token_ast(t_data *data)
 {
 	t_ast	*root;
 
+	// Validate input data structure
 	if (!data || !data->list_token)
 		return (0);
 	data->tmp = data->list_token;
@@ -23,11 +24,14 @@ static int	ft_parse_token_ast(t_data *data)
 	if (data->token->type == T_PIPE)
 		return (ft_putstr_fd("minishell: syntax error: near unexpected `|'\n",
 				2), 0);
+	// Initialize error handling state
 	data->error->error = false;
 	data->error->msg = NULL;
+	// Build Abstract Syntax Tree from token list
 	root = ft_creat_root(data);
 	if (data->error->error)
 	{
+		// Display syntax error message to stderr
 		ft_putstr_fd("minishell: syntax error: ", 2);
 		ft_putstr_fd(data->error->msg, 2);
 		ft_putstr_fd("\n", 2);
