@@ -79,4 +79,21 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# Performance and debugging targets
+debug: CFLAGS += -g -DDEBUG
+debug: all
+	@echo "$(CYAN)Debug build completed with debugging symbols$(CLR_RMV)"
+
+release: CFLAGS += -O2 -DNDEBUG
+release: all
+	@echo "$(GREEN)Release build completed with optimizations$(CLR_RMV)"
+
+benchmark: all
+	@echo "$(YELLOW)Running performance benchmark...$(CLR_RMV)"
+	@./benchmark.sh
+
+valgrind: all
+	@echo "$(CYAN)Running valgrind memory check...$(CLR_RMV)"
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+
+.PHONY: all clean fclean re debug release benchmark valgrind
