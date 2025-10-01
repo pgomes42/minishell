@@ -6,7 +6,7 @@
 #    By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/20 10:36:38 by pgomes            #+#    #+#              #
-#    Updated: 2025/09/23 11:29:28 by pgomes           ###   ########.fr        #
+#    Updated: 2025/10/01 11:52:44 by pgomes           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 			src/tokenizing/token_utils.c\
 			src/tokenizing/token_utils_two.c\
 			src/env/env_list.c\
+			src/env/env_utils.c\
 			src/ast/ast.c\
 			src/builtins/cd.c\
 			src/builtins/echo.c\
@@ -41,7 +42,9 @@ SRCS		:=	src/tokenizing/tokenizing.c\
 			src/execute/execute_utils.c\
 			src/utils/load_argv.c\
 			src/utils/clear.c\
+			src/utils/utils.c\
 			src/utils/signal.c\
+			src/utils/signal_utils.c\
 			src/expander/expander.c\
 			src/expander/expander_utils.c\
 			src/ast/ast_utils.c\

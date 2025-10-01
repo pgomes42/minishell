@@ -1,42 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/04 21:07:31 by pgomes            #+#    #+#             */
-/*   Updated: 2025/10/01 11:56:35 by pgomes           ###   ########.fr       */
+/*   Created: 2025/10/01 11:28:28 by pgomes            #+#    #+#             */
+/*   Updated: 2025/10/01 11:40:46 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getenv_value(t_list *list, char *key)
+void	ft_print_error_msg(t_data *data)
 {
-	t_list	*temp;
-	t_env	*env;
-	char	*value;
-
-	value = "";
-	temp = list;
-	while (temp)
-	{
-		env = (t_env *)temp->content;
-		if (!ft_strcmp(env->key, key))
-			return (free(key), env->value);
-		temp = temp->next;
-	}
-	free(key);
-	return (value);
-}
-
-void	print_env(void *en)
-{
-	t_env	*env;
-
-	env = (t_env *)en;
-	if (!env)
-		return ;
-	printf("%s=%s \n", env->key, env->value);
+	ft_putstr_fd("minishell: syntax error: ", 2);
+	ft_putstr_fd(data->error->msg, 2);
+	ft_putstr_fd("\n", 2);
+	data->error->error = false;
 }

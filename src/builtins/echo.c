@@ -12,31 +12,31 @@
 
 #include "minishell.h"
 
-int ft_echo(char *argv[])
+int	ft_echo(char *argv[])
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    j = -2;
-    while (argv[++i])
-    {
-        if (i == 1 && argv[1][0] == '-' && argv[1][1] == 'n')
-        {
-            j = 2;
-            while (argv[1][j] != '\0' && argv[1][j] == 'n')
-                j++;
-            if(argv[1][j] == '\0')
-            {
-                j = -1;
-                continue;
-            }
-        }
-        printf("%s", argv[i]);
-        if(argv[i + 1])
-            printf(" ");
-    }
-    if (j != -1)
-        printf("\n");
-    return (0);
+	i = 0;
+	j = -2;
+	while (argv[++i])
+	{
+		if (i == 1 && argv[1][0] == '-' && argv[1][1] == 'n')
+		{
+			j = 2;
+			while (argv[1][j] != '\0' && argv[1][j] == 'n')
+				j++;
+			if (argv[1][j] == '\0')
+			{
+				j = -1;
+				continue ;
+			}
+		}
+		printf("%s", argv[i]);
+		if (argv[i + 1])
+			printf(" ");
+	}
+	if (j != -1)
+		printf("\n");
+	return (0);
 }

@@ -6,20 +6,20 @@
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 11:47:09 by pgomes            #+#    #+#             */
-/*   Updated: 2025/09/13 11:52:00 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/10/01 11:36:25 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_pwd(void)
+int	ft_pwd(void)
 {
-    char *pwd;
-    
-    pwd = getcwd(NULL, 0);
-    if (!pwd)
-        return (0);
-    printf("%s\n", pwd);
-    free(pwd);
-    return (1);
+	char *pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (0);
+	printf("%s\n", pwd);
+	free(pwd);
+	return (1);
 }

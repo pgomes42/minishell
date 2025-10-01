@@ -12,30 +12,29 @@
 
 #include "minishell.h"
 
-int ft_unset(t_data *data, char *args)
+int	ft_unset(t_data *data, char *args)
 {
-    t_env *env;
-    t_list *list_env;
-    t_list *prev;
+	t_env	*env;
+	t_list	*list_env;
+	t_list	*prev;
 
-    prev = NULL;
-    list_env = data->list_env;
-    while (list_env)
-    {
-        env = (t_env *)list_env->content;
-        if (!ft_strcmp(args, env->key))
-        {
-            
-            clear_env((void *)env);
-            if (prev)
-                prev->next = list_env->next;
-            else
-                data->list_env = list_env->next;
-            free(list_env);
-            return (1);
-        }
-        prev = list_env;
-        list_env = list_env->next;
-    }
-    return (0);
+	prev = NULL;
+	list_env = data->list_env;
+	while (list_env)
+	{
+		env = (t_env *)list_env->content;
+		if (!ft_strcmp(args, env->key))
+		{
+			clear_env((void *)env);
+			if (prev)
+				prev->next = list_env->next;
+			else
+				data->list_env = list_env->next;
+			free(list_env);
+			return (1);
+		}
+		prev = list_env;
+		list_env = list_env->next;
+	}
+	return (0);
 }

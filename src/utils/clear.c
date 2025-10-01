@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-void ft_clear_matrix(char **matrix)
+void	ft_clear_matrix(char **matrix)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (matrix && matrix[++i])
-        free(matrix[i]);
-    if (matrix)
-        free(matrix);
+	i = -1;
+	while (matrix && matrix[++i])
+		free(matrix[i]);
+	if (matrix)
+		free(matrix);
 }

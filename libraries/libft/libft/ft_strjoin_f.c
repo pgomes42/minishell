@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_f.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgomes <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 19:21:15 by pgomes            #+#    #+#             */
-/*   Updated: 2024/11/20 10:10:08 by pgomes           ###   ########.fr       */
+/*   Updated: 2025/10/01 11:54:30 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin_f(char *s1, char *s2)
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	new = (char *)malloc(sizeof(char) * (ft_strlen(s2) + 
+	new = (char *)malloc(sizeof(char) * (ft_strlen(s2) +
 	ft_strlen(s1) + 1));
 	if (!new)
 		return (NULL);

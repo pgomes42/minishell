@@ -1,42 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils.c                                        :+:      :+:    :+:   */
+/*   signal_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgomes <pgomes@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/04 21:07:31 by pgomes            #+#    #+#             */
-/*   Updated: 2025/10/01 11:56:35 by pgomes           ###   ########.fr       */
+/*   Created: 2025/10/01 10:49:35 by pgomes            #+#    #+#             */
+/*   Updated: 2025/10/01 11:40:53 by pgomes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_getenv_value(t_list *list, char *key)
+void	ft_heredoc_sigint_ex(int sig)
 {
-	t_list	*temp;
-	t_env	*env;
-	char	*value;
-
-	value = "";
-	temp = list;
-	while (temp)
-	{
-		env = (t_env *)temp->content;
-		if (!ft_strcmp(env->key, key))
-			return (free(key), env->value);
-		temp = temp->next;
-	}
-	free(key);
-	return (value);
+	(void)sig;
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void	print_env(void *en)
+void	ft_setup_execution(void)
 {
-	t_env	*env;
-
-	env = (t_env *)en;
-	if (!env)
-		return ;
-	printf("%s=%s \n", env->key, env->value);
+	signal(SIGINT, ft_heredoc_sigint_ex);
+	signal(SIGQUIT, SIG_IGN);
 }
