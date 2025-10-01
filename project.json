@@ -1,0 +1,65 @@
+{
+  "name": "minishell",
+  "version": "1.0.0",
+  "description": "A simple shell implementation in C for 42 School",
+  "author": {
+    "name": "Pacheco Gomes",
+    "email": "pgomes42@hotmail.com",
+    "github": "pgomes42",
+    "school": "42 Luanda"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pgomes42/minishell.git"
+  },
+  "keywords": [
+    "shell",
+    "c",
+    "42school",
+    "unix",
+    "terminal",
+    "bash",
+    "parser",
+    "ast",
+    "readline"
+  ],
+  "license": "MIT",
+  "features": {
+    "builtins": [
+      "echo",
+      "cd", 
+      "pwd",
+      "export",
+      "unset",
+      "env",
+      "exit"
+    ],
+    "advanced": [
+      "pipes",
+      "redirections",
+      "heredoc",
+      "variable_expansion",
+      "signal_handling",
+      "quotes_parsing"
+    ]
+  },
+  "development": {
+    "compiler": "gcc",
+    "standard": "c99",
+    "norm": "42school",
+    "memory_check": "valgrind",
+    "dependencies": [
+      "libreadline-dev"
+    ]
+  },
+  "testing": {
+    "script": "./test_minishell.sh",
+    "memory_test": "valgrind --leak-check=full ./minishell",
+    "norm_check": "norminette src/ include/"
+  },
+  "build": {
+    "command": "make",
+    "clean": "make fclean",
+    "debug": "make debug"
+  }
+}
