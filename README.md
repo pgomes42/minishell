@@ -272,8 +272,8 @@ valgrind --tool=callgrind ./minishell
 
 ## 👨‍💻 Autor
 
-**pgomes** | 42 Lisboa
-- 📧 Email: [pinto-go@student.42lisboa.com]
+**pgomes** | 42 Luanda
+- 📧 Email: [pgomes42@hotmail.com]
 - 🐱 GitHub: [@pgomes42](https://github.com/pgomes42)
 - 💼 LinkedIn: [Paulo Gomes](https://linkedin.com/in/paulo-gomes-dev)
 
@@ -283,6 +283,6 @@ valgrind --tool=callgrind ./minishell
 
 **⭐ Se este projeto te ajudou, deixe uma estrela! ⭐**
 
-Feito com ❤️ e muito ☕ na **42 Lisboa**
+Feito com ❤️ e muito ☕ na **42 Luanda**
 
 </div>
