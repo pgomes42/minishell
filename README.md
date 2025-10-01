@@ -272,10 +272,10 @@ valgrind --tool=callgrind ./minishell
 
 ## 👨‍💻 Autor
 
-**pgomes** | 42 Luanda
+**Pacheco Gomes** | 42 Luanda
 - 📧 Email: [pgomes42@hotmail.com]
 - 🐱 GitHub: [@pgomes42](https://github.com/pgomes42)
-- 💼 LinkedIn: [Paulo Gomes](https://linkedin.com/in/paulo-gomes-dev)
+- 💼 LinkedIn: [Pacheco Gomes](https://linkedin.com/in/pacheco-gomes-dev)
 
 ---
 
